@@ -1,0 +1,445 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Coherence Ethics (Draft)</title>
+  <meta name="description" content="Coherence Ethics — grounding meaning and morality in dynamical systems under constraints." />
+
+  <!-- MathJax for LaTeX rendering -->
+  <script>
+    window.MathJax = {
+      tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] },
+      options: { skipHtmlTags: ['script','noscript','style','textarea','pre','code'] }
+    };
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+  <style>
+    :root{
+      --bg:#0b0f14;
+      --card:#0f1620;
+      --text:#e8eef6;
+      --muted:#aab6c5;
+      --accent:#7dd3fc;
+      --line:#223042;
+      --code:#0a121b;
+      --maxw: 980px;
+    }
+    @media (prefers-color-scheme: light){
+      :root{
+        --bg:#ffffff;
+        --card:#f6f8fb;
+        --text:#0b1220;
+        --muted:#44546a;
+        --accent:#0369a1;
+        --line:#dbe3ee;
+        --code:#eef3f8;
+      }
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      line-height:1.6;
+      background:var(--bg);
+      color:var(--text);
+    }
+    header{
+      padding: 42px 16px 14px;
+      border-bottom:1px solid var(--line);
+      background: linear-gradient(180deg, rgba(125,211,252,.12), transparent 40%);
+    }
+    main{
+      max-width:var(--maxw);
+      margin: 0 auto;
+      padding: 22px 16px 64px;
+    }
+    h1{
+      margin:0 0 10px;
+      font-size: clamp(28px, 4vw, 44px);
+      letter-spacing:-0.02em;
+    }
+    .subtitle{
+      margin:0;
+      color:var(--muted);
+      font-size: 15px;
+    }
+    nav{
+      max-width:var(--maxw);
+      margin: 0 auto;
+      padding: 12px 16px 0;
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+    }
+    nav a{
+      color:var(--muted);
+      text-decoration:none;
+      border:1px solid var(--line);
+      background: rgba(255,255,255,0.03);
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 13px;
+    }
+    nav a:hover{ color:var(--text); border-color: rgba(125,211,252,.4); }
+    section{
+      margin-top: 26px;
+      padding: 18px 18px;
+      border:1px solid var(--line);
+      border-radius: 16px;
+      background: var(--card);
+    }
+    h2{ margin: 0 0 10px; font-size: 22px; }
+    h3{ margin: 16px 0 8px; font-size: 16px; color: var(--accent); }
+    p{ margin: 8px 0; }
+    ul{ margin: 10px 0 10px 22px; }
+    code, pre{
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size: 0.95em;
+    }
+    pre{
+      background: var(--code);
+      border: 1px solid var(--line);
+      padding: 12px 12px;
+      border-radius: 12px;
+      overflow:auto;
+    }
+    .callout{
+      border-left: 4px solid var(--accent);
+      padding: 10px 12px;
+      margin: 10px 0;
+      background: rgba(125,211,252,.07);
+      border-radius: 10px;
+    }
+    .hr{
+      height:1px; background:var(--line);
+      margin: 14px 0;
+    }
+    .small{ color:var(--muted); font-size: 13px; }
+    .tag{
+      display:inline-block;
+      font-size:12px;
+      padding: 2px 10px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      color: var(--muted);
+      margin-right:8px;
+    }
+    footer{
+      margin-top: 24px;
+      color:var(--muted);
+      font-size: 13px;
+      text-align:center;
+      padding-top: 20px;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <main style="padding-bottom:10px">
+      <h1>Coherence Ethics (Draft)</h1>
+      <p class="subtitle">
+        Grounding meaning, morality, justice, and alignment in dynamical systems under constraints.
+      </p>
+      <p class="small" style="margin-top:10px">
+        <span class="tag">Coherence Theory</span>
+        <span class="tag">Ethics</span>
+        <span class="tag">AI Alignment</span>
+        <span class="tag">Lyapunov / Viability</span>
+      </p>
+    </main>
+    <nav>
+      <a href="#summary">Summary</a>
+      <a href="#motivation">Motivation</a>
+      <a href="#coherence">Coherence</a>
+      <a href="#principle">Coherence Principle</a>
+      <a href="#meaning">Meaning</a>
+      <a href="#ethics">Ethics</a>
+      <a href="#rights">Rights</a>
+      <a href="#justice">Justice</a>
+      <a href="#entropy">Entropy</a>
+      <a href="#alignment">AI Alignment</a>
+      <a href="#open">Open Questions</a>
+      <a href="#reading">Suggested Reading</a>
+    </nav>
+  </header>
+
+  <main>
+    <section id="summary">
+      <h2>Summary</h2>
+      <p><strong>Coherence Ethics</strong> is a framework that attempts to derive <em>meaning</em> and <em>morality</em> from
+        the mathematics of <strong>dynamical systems under constraints</strong>.</p>
+
+      <div class="callout">
+        <p><strong>Good</strong> = actions that increase sustainable multi-agent coherence.<br />
+           <strong>Bad</strong> = actions that destroy or shrink the viability/coherence of conscious systems.</p>
+      </div>
+
+      <p>Here, coherence is not defined as “order” or “low entropy”, but as <strong>distance from collapse</strong>
+        in a world shaped by disturbances and entropy pressure.</p>
+
+      <p>This aims to connect:</p>
+      <ul>
+        <li>physics &amp; thermodynamics (open systems, dissipation),</li>
+        <li>control theory (Lyapunov stability, robustness, barrier constraints),</li>
+        <li>meaning as a trajectory property (direction in state-space),</li>
+        <li>ethics and AI alignment.</li>
+      </ul>
+    </section>
+
+    <section id="motivation">
+      <h2>Motivation</h2>
+      <p>Many ethical theories fall into a dilemma:</p>
+      <ul>
+        <li><strong>Religious realism</strong>: objective morality but metaphysically heavy.</li>
+        <li><strong>Moral relativism</strong>: subjective morality with no binding truth.</li>
+        <li><strong>Utilitarianism</strong>: morality becomes arithmetic pleasure aggregation.</li>
+        <li><strong>Nihilism</strong>: morality collapses into preference.</li>
+      </ul>
+
+      <div class="callout">
+        <p>Coherence Ethics proposes: morality emerges as a consequence of which trajectories remain viable
+          in the space of possible worlds.</p>
+      </div>
+    </section>
+
+    <section id="coherence">
+      <h2>Coherence as viability margin</h2>
+      <p>Model an agent/system interacting with its environment as:</p>
+      <p>$$\dot x = f(x,u,w)$$</p>
+
+      <ul>
+        <li>$x$ = system state (agent + relevant environment variables)</li>
+        <li>$u$ = action / control (agency)</li>
+        <li>$w$ = disturbance (noise, scarcity, adversaries, uncertainty, entropy pressure)</li>
+      </ul>
+
+      <h3>Viability constraints</h3>
+      <p>Let constraints $g_i(x)\ge 0$ encode “must-hold” conditions for continued existence/identity/function.
+        Define the <strong>viability set</strong>:</p>
+
+      <p>$$K := \{x \mid g_i(x)\ge 0,\ \forall i\}$$</p>
+
+      <p>Outside $K$, the system is considered to have failed (collapse, death, irreversible breakdown).</p>
+
+      <h3>Coherence margin</h3>
+      <p>Define the <strong>coherence margin</strong> as distance from constraint violation:</p>
+      <p>$$C(x) := \min_i g_i(x)$$</p>
+
+      <ul>
+        <li>$C(x)&gt;0$: viable</li>
+        <li>$C(x)=0$: boundary</li>
+        <li>$C(x)&lt;0$: failure region</li>
+      </ul>
+
+      <div class="callout">
+        <p><strong>Coherence is not a substance.</strong> Coherence is the margin of viability under constraints.</p>
+      </div>
+    </section>
+
+    <section id="principle">
+      <h2>The Coherence Principle (stability under entropy &amp; disturbance)</h2>
+      <p>Coherence exists if there is a policy $u=\pi(x)$ that maintains viability:</p>
+      <p>$$C(x(t))>0\ \forall t$$</p>
+
+      <p>A Lyapunov-like robust maintenance condition:</p>
+      <p>$$\dot C(x) \ge -\alpha(C(x)) - \beta(\|w\|)$$</p>
+
+      <ul>
+        <li>$\alpha$ captures natural decay / entropy pressure (aging, friction, disordering tendencies)</li>
+        <li>$\beta$ captures disturbance impact</li>
+      </ul>
+
+      <p><strong>Strong form</strong> (regenerative coherence / antifragility):</p>
+      <p>$$C(x)>0 \Rightarrow \dot C(x)\ge \epsilon$$</p>
+
+      <div class="callout">
+        <p>If viable, a coherent system tends to move away from collapse (it regenerates viability margin).</p>
+      </div>
+    </section>
+
+    <section id="meaning">
+      <h2>Meaning as direction in state-space</h2>
+      <p><strong>Meaning</strong> can be grounded as orientation relative to coherence.</p>
+
+      <div class="callout">
+        <p><strong>Meaning = direction that increases coherence margin.</strong></p>
+      </div>
+
+      <p>Discrete-time “meaning value” of an action:</p>
+      <p>$$m(u;x) := \mathbb{E}[C(x_{t+1})-C(x_t)\mid x,u]$$</p>
+
+      <p>Thus meaning is not metaphysical decoration but a real property of trajectories:
+        actions are meaningful when they tend to increase distance from failure and support sustainable viability.</p>
+    </section>
+
+    <section id="ethics">
+      <h2>Multi-agent coherence and ethics</h2>
+      <p>Ethics arises when multiple agents share an environment. Let $C_j(x)$ be the coherence margin of agent $j$.</p>
+
+      <p>Define the ethical value of a policy:</p>
+      <p>$$
+      \mathcal{E}(\pi) :=
+      \mathbb{E}\left[
+      \int_0^\infty e^{-\lambda t}
+      \sum_{j \in \mathcal{A}} w_j\, \phi(C_j(x(t)))\, dt
+      \right]
+      $$</p>
+
+      <ul>
+        <li>$\mathcal{A}$ = set of morally relevant agents (moral patients)</li>
+        <li>$w_j$ = moral weight (often symmetric across persons)</li>
+        <li>$\phi$ = saturation function (prevents pathological infinite accumulation)</li>
+        <li>$e^{-\lambda t}$ = limited predictability horizon (not necessarily moral discounting)</li>
+      </ul>
+
+      <div class="callout">
+        <p><strong>Good</strong> policies increase $\mathcal{E}$ over time.<br/>
+           <strong>Bad</strong> policies decrease it.</p>
+      </div>
+
+      <h3>Harm</h3>
+      <p>Harm is a decrease in viability margin:</p>
+      <p>$$\text{Harm} := -\Delta C_j$$</p>
+
+      <p>This captures physical injury, psychological trauma, deprivation, oppression, and deception
+        (via collapse of shared model stability).</p>
+    </section>
+
+    <section id="rights">
+      <h2>Rights as protected constraints</h2>
+      <p>Rights can be formalized as <strong>constraints that must not be violated</strong>, even when aggregate gains appear possible.</p>
+
+      <p>In control theory, this resembles barrier constraints:</p>
+      <p>$$\dot g(x) + \kappa g(x) \ge 0$$</p>
+
+      <div class="callout">
+        <p><strong>Rights = invariance constraints that preserve coherent agency.</strong></p>
+      </div>
+
+      <p>Examples:</p>
+      <ul>
+        <li>bodily autonomy</li>
+        <li>freedom of speech / inquiry (epistemic coherence)</li>
+        <li>due process (predictable control channels)</li>
+        <li>freedom from coercion / manipulation</li>
+      </ul>
+    </section>
+
+    <section id="justice">
+      <h2>Justice as stability requirement</h2>
+      <p>Systems that maximize average coherence while leaving some agents near-collapse are brittle.</p>
+
+      <p>Justice can be represented as:</p>
+      <ul>
+        <li><strong>maximin viability</strong>: $$\min_j C_j(x) \ge C_{\min}$$</li>
+        <li>or strongly concave aggregation that heavily penalizes low margins</li>
+      </ul>
+
+      <div class="callout">
+        <p>Fairness is not an optional moral decoration — it emerges as a structural stability requirement
+          under perturbations.</p>
+      </div>
+    </section>
+
+    <section id="entropy">
+      <h2>Relationship to entropy and thermodynamics</h2>
+      <p>Entropy provides baseline destructive pressure.</p>
+
+      <p>Coherence in open systems implies:</p>
+      <ul>
+        <li>internal entropy production is unavoidable,</li>
+        <li>survival requires exporting entropy (dissipation),</li>
+        <li>maintaining structure requires energy throughput.</li>
+      </ul>
+
+      <p><strong>Important:</strong> coherence is not identical to low entropy.
+        Crystals have low entropy but low agency/meaning; oppression can enforce “order” while reducing coherence for persons.</p>
+
+      <div class="callout">
+        <p>Coherence Ethics focuses on viable agency under constraints (trajectory integrity), not static order.</p>
+      </div>
+    </section>
+
+    <section id="alignment">
+      <h2>AI alignment implications</h2>
+      <p>An AI is a powerful controller acting in a world with humans as subagents.</p>
+
+      <p>Alignment can be described as maximizing multi-agent coherence:</p>
+      <p>$$\pi_{AI} \in \arg\max_{\pi}\mathcal{E}(\pi)$$</p>
+
+      <p>Subject to human viability constraints:</p>
+      <p>$$C_{\text{human}}(x(t))>0\ \forall t$$</p>
+
+      <p>And restrictions against:</p>
+      <ul>
+        <li>coercion / manipulation</li>
+        <li>mass deception</li>
+        <li>sabotage of epistemic coherence</li>
+      </ul>
+
+      <div class="callout">
+        <p>In this view, <strong>human rights are control barrier functions</strong>: enforceable boundaries for safe AI behavior.</p>
+      </div>
+    </section>
+
+    <section id="open">
+      <h2>Open questions</h2>
+      <ol>
+        <li><strong>Moral patienthood:</strong> which systems count as morally relevant (humans, animals, AI, etc.)?</li>
+        <li><strong>Consciousness:</strong> relationship between coherence, self-modeling, and experience?</li>
+        <li><strong>Aggregation:</strong> what is the correct form of $\phi(\cdot)$ (avoid Goodharting)?</li>
+        <li><strong>Robustness:</strong> coherent policies under adversarial dynamics?</li>
+        <li><strong>Societal dynamics:</strong> how to model trust, institutions, shared epistemics as constraints?</li>
+      </ol>
+    </section>
+
+    <section id="reading">
+      <h2>Suggested reading / related topics</h2>
+
+      <h3>Dynamical systems &amp; stability</h3>
+      <ul>
+        <li>Lyapunov stability</li>
+        <li>LaSalle invariance principle</li>
+      </ul>
+
+      <h3>Control theory</h3>
+      <ul>
+        <li>feedback control</li>
+        <li>robustness</li>
+        <li>input-to-state stability (ISS)</li>
+      </ul>
+
+      <h3>Constraint-first dynamics</h3>
+      <ul>
+        <li>viability theory</li>
+        <li>viability kernel</li>
+        <li>controlled invariant sets</li>
+      </ul>
+
+      <h3>Thermodynamics</h3>
+      <ul>
+        <li>open systems</li>
+        <li>dissipative structures</li>
+      </ul>
+
+      <h3>AI alignment</h3>
+      <ul>
+        <li>alignment as constrained optimization under human viability constraints</li>
+        <li>barrier-function safety</li>
+      </ul>
+
+      <div class="hr"></div>
+      <p class="small">
+        Draft document. You can adapt/extend into: Coherence Theory → Meaning → Ethics → Alignment chain.
+      </p>
+    </section>
+
+    <footer>
+      <p>© Draft — Coherence Ethics. Built for GitHub Pages (HTML + MathJax).</p>
+    </footer>
+  </main>
+</body>
+</html>
